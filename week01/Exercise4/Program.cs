@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Transactions;
+
 class Program
 {
     static void Main(string[] args)
@@ -16,7 +15,7 @@ class Program
 
             if (userNumber != 0)
             {
-                Numbers.Add(userNumber);
+                number.Add(userNumber);
             }
         } 
 
