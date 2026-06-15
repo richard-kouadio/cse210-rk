@@ -1,85 +1,73 @@
 using System;
 using System.Threading;
 
-public class Activity
+public abstract class Activity
 {
-    private string _activityName;
+    private string _name;
     private string _description;
     private int _duration;
 
     public Activity(string name, string description)
     {
-        _activityName = name;
+        _name = name;
         _description = description;
     }
 
-    public int GetDuration()
+    public void Run()
     {
-        return _duration;
+        DisplayStartingMessage();
+        _duration = GetDuration();
+        PrepareToStart();
+        PerformActivity();
+        DisplayEndingMessage();
     }
 
-    public void SetDuration(int duration)
+    protected abstract void PerformActivity();
+
+    protected int GetDuration()
     {
-        _duration = duration;
+        Console.Write("How many seconds would you like to do this activity? ");
+        return int.Parse(Console.ReadLine());
     }
 
-    public void DisplayStartingMessage()
+    private void DisplayStartingMessage()
     {
         Console.Clear();
-        Console.WriteLine($"Welcome to the {_activityName}.");
-        Console.WriteLine();
+        Console.WriteLine($"--- {_name} ---\n");
         Console.WriteLine(_description);
         Console.WriteLine();
+    }
 
-        Console.Write("How long, in seconds, would you like for your session? ");
-        _duration = int.Parse(Console.ReadLine());
-
-        Console.WriteLine();
-        Console.WriteLine("Prepare to begin...");
+    private void PrepareToStart()
+    {
+        Console.Write("Get ready...");
         ShowSpinner(3);
     }
 
-
-    public void DisplayEndingMessage()
+    private void DisplayEndingMessage()
     {
-        Console.WriteLine();
-        Console.WriteLine("Good job!");
+        Console.WriteLine("\nWell done!");
         ShowSpinner(2);
-
-        Console.WriteLine(
-            $"You completed the {_activityName} for {_duration} seconds."
-        );
-
+        Console.WriteLine($"You completed {_name} for {_duration} seconds.");
         ShowSpinner(3);
     }
 
-
-    public void ShowSpinner(int seconds)
+    protected void ShowSpinner(int seconds)
     {
-        string[] animation = { "|", "/", "-", "\\" };
+        string[] spinner = { "|", "/", "-", "\\" };
+        DateTime end = DateTime.Now.AddSeconds(seconds);
 
-        DateTime end =
-            DateTime.Now.AddSeconds(seconds);
-
-        int index = 0;
-
+        int i = 0;
         while (DateTime.Now < end)
         {
-            Console.Write(animation[index]);
-            Thread.Sleep(250);
+            Console.Write(spinner[i % spinner.Length]);
+            Thread.Sleep(200);
             Console.Write("\b \b");
-
-            index++;
-
-            if (index >= animation.Length)
-            {
-                index = 0;
-            }
+            i++;
         }
     }
 
-
-    public void ShowCountDown(int seconds)
+    protected void ShowCountdown(int seconds)
     {
         for (int i = seconds; i > 0; i--)
         {

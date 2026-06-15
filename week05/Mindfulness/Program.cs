@@ -4,69 +4,26 @@ class Program
 {
     static void Main(string[] args)
     {
-
-        // Creativity:
-        // Added activity tracking through completion messages
-        // and enhanced spinner animations.
-
-
-        int choice = 0;
-
-
-        while(choice != 4)
+        while (true)
         {
-
             Console.Clear();
-
-            Console.WriteLine(
-            "Mindfulness Program"
-            );
-
-            Console.WriteLine();
+            Console.WriteLine("Mindfulness Program");
             Console.WriteLine("1. Breathing Activity");
             Console.WriteLine("2. Reflection Activity");
             Console.WriteLine("3. Listing Activity");
             Console.WriteLine("4. Quit");
 
+            Console.Write("\nChoose an option: ");
+            string input = Console.ReadLine();
 
-            Console.Write(
-                "Choose an option: "
-            );
-
-
-            choice = int.Parse(Console.ReadLine());
-
-
-            if(choice == 1)
-            {
-                BreathingActivity activity =
-                    new BreathingActivity();
-
-                activity.Run();
-            }
-
-
-            else if(choice == 2)
-            {
-                ReflectingActivity activity =
-                    new ReflectingActivity();
-
-                activity.Run();
-            }
-
-
-            else if(choice == 3)
-            {
-                ListingActivity activity =
-                    new ListingActivity();
-
-                activity.Run();
-            }
-
-
+            if (input == "1")
+                new BreathingActivity().Run();
+            else if (input == "2")
+                new ReflectionActivity().Run();
+            else if (input == "3")
+                new ListingActivity().Run();
+            else if (input == "4")
+                break;
         }
-
-
-        Console.WriteLine("Goodbye!");
     }
 }

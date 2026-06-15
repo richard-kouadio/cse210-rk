@@ -3,70 +3,49 @@ using System.Collections.Generic;
 
 public class ListingActivity : Activity
 {
-
     private List<string> _prompts;
-    private List<string> _answers;
-
+    private Random _random = new Random();
 
     public ListingActivity()
         : base(
-        "Listing Activity",
-        "This activity helps you reflect on positive things in your life."
+            "Listing Activity",
+            "This activity helps you list positive things in your life."
         )
     {
-
         _prompts = new List<string>
         {
-            "Who are people you appreciate?",
-            "What are your personal strengths?",
-            "Who helped you this week?"
+            "List people you appreciate:",
+            "List your personal strengths:",
+            "List things you are grateful for:",
+            "List people who helped you recently:"
         };
-
-
-        _answers = new List<string>();
-
     }
 
-
-    public void Run()
+    protected override void PerformActivity()
     {
-        DisplayStartingMessage();
+        string prompt = _prompts[_random.Next(_prompts.Count)];
+        Console.WriteLine("\n" + prompt);
 
+        ShowCountdown(5);
 
-        Console.WriteLine();
+        int duration = GetDuration();
+        DateTime end = DateTime.Now.AddSeconds(duration);
 
-        Console.WriteLine(
-            _prompts[new Random().Next(_prompts.Count)]
-        );
+        int count = 0;
 
+        Console.WriteLine("\nStart listing items:");
 
-        Console.WriteLine(
-            "Start listing items:"
-        );
-
-
-        DateTime end =
-            DateTime.Now.AddSeconds(GetDuration());
-
-
-        while(DateTime.Now < end)
+        while (DateTime.Now < end)
         {
             Console.Write("> ");
+            string input = Console.ReadLine();
 
-            string answer = Console.ReadLine();
-
-            if(answer != "")
+            if (!string.IsNullOrWhiteSpace(input))
             {
-                _answers.Add(answer);
+                count++;
             }
         }
 
-
-        Console.WriteLine(
-            $"You listed {_answers.Count} items."
-        );
-
-
-        DisplayEndingMessage();
+        Console.WriteLine($"\nYou listed {count} items!");
     }
 }
